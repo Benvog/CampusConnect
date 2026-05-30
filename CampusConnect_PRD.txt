@@ -1,0 +1,344 @@
+================================================================================
+CAMPUSCONNECT — CAMPUS DATING PLATFORM
+PRODUCT REQUIREMENTS DOCUMENT (PRD) v1.0
+================================================================================
+Document Version : 1.0 — Initial Release
+Status           : Draft — Pending Stakeholder Review
+Author           : Product Team
+Date             : April 2026
+Target Platform  : Web (MVP) + iOS & Android (Phase 2)
+Target Market    : Kenyan University Students
+================================================================================
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. EXECUTIVE SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CampusConnect is a safety-first, campus-verified dating and social discovery
+platform built exclusively for university students in Kenya. Unlike
+general-purpose dating apps, CampusConnect restricts access to enrolled
+students verified through institutional email, creating a trusted,
+closed-network environment designed for meaningful connections within and
+across campuses.
+
+The platform addresses a clear gap: campus social scenes are rich but
+fragmented. Students struggle to meet peers outside their immediate circles,
+existing apps carry safety concerns and lack campus context, and social events
+remain poorly discoverable. CampusConnect solves all three with verified
+profiles, contextual matching, and a campus events layer.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. PROBLEM STATEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2.1 The Challenge
+------------------
+University students are at a prime life stage for forming meaningful
+relationships, yet the tools available to them are either too broad (mainstream
+dating apps with unverified strangers) or too passive (social media with no
+matching intent). Key pain points include:
+
+  • Safety anxiety: meeting strangers from unverified apps, especially for
+    female students
+  • Social silos: friend groups rarely overlap across faculties, years, or
+    hostels
+  • Poor event discoverability: campus events are scattered across WhatsApp
+    groups and notice boards
+  • Stigma: dating apps feel impersonal and carry social stigma in close-knit
+    campus cultures
+
+2.2 Opportunity
+----------------
+A campus-exclusive platform removes the stranger-danger element entirely.
+Every user is a verified student — this single constraint transforms the trust
+calculus and opens the door to richer, campus-contextual features that general
+apps cannot offer.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. GOALS & SUCCESS METRICS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+3.1 Product Goals
+------------------
+  • Build a safe, verified, campus-only social and dating network
+  • Enable meaningful connections through contextual matching (faculty, year,
+    interests, campus)
+  • Achieve organic growth through word-of-mouth within tight campus communities
+  • Generate sustainable revenue through a freemium model without compromising
+    the core experience
+
+3.2 Key Success Metrics
+------------------------
+  Metric                              6-Month Target       12-Month Target
+  ----------------------------------- -------------------- --------------------
+  Registered & Verified Users         5,000                25,000
+  Monthly Active Users (MAU)          60% of registered    65% of registered
+  Day-7 Retention                     40%                  50%
+  Matches per Active User / Month     5+                   10+
+  Conversations Initiated Rate        30% of matches       40% of matches
+  Premium Conversion Rate             5%                   8%
+  NPS Score                           > 40                 > 55
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. TARGET USERS & PERSONAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4.1 Primary Users
+------------------
+Enrolled undergraduate and postgraduate students at Kenyan universities,
+aged 18–28.
+
+4.2 User Personas
+------------------
+
+Persona A — The Social Connector
+  Name: Amina, 20, 2nd Year, Business at University of Nairobi
+  • Uses WhatsApp heavily but finds it too informal for meeting new people
+  • Wants to meet people outside her hostel block and faculty
+  • Values events, icebreakers, and low-pressure connection tools
+
+Persona B — The Intentional Dater
+  Name: Brian, 23, 4th Year, Computer Science at Kabarak University
+  • Tried mainstream apps but felt they lacked campus context and safety
+  • Wants to meet someone with shared academic pressures and campus life
+  • Values compatibility scores, shared interests, and meaningful conversations
+
+Persona C — The Privacy-Conscious User
+  Name: Cynthia, 21, 3rd Year, Medicine at Kenyatta University
+  • Concerned about being seen by classmates or lecturers on dating apps
+  • Wants granular visibility controls (hide from specific people, incognito)
+  • Values a reputation-safe environment before committing to interactions
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. FEATURE REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+5.1 Feature Priority Matrix
+-----------------------------
+  Feature                                      Priority  Effort   Notes
+  -------------------------------------------- --------- -------- ----------------------
+  Student Verification (Institutional Email)   P0        Medium   MVP blocker
+  Profile Creation                             P0        Low      Photo, bio, faculty
+  Swipe / Discovery Feed                       P0        Medium   Card-based browsing
+  Mutual Match & Chat                          P0        High     Matched users only
+  Campus Filter                                P0        Low      Same/nearby campus
+  Push Notifications                           P1        Low      Match & message alerts
+  Campus Events Board                          P1        Medium   Discover campus events
+  Ice-Breaker Prompts                          P1        Low      Reduce first-msg anxiety
+  Interests & Compatibility Tags               P1        Low      Improve match relevance
+  Report & Block System                        P0        Medium   Critical for safety
+  Super Like / Boost (Premium)                 P2        Low      Revenue feature
+  Incognito Mode (Premium)                     P2        Low      Browse anonymously
+  See Who Liked You (Premium)                  P2        Low      Unlock match queue
+  Cross-Campus Mode                            P2        Medium   Match other universities
+  AI Conversation Starters                     P2        High     Phase 2 feature
+
+5.2 Core Feature Specifications
+---------------------------------
+
+F1 — Student Verification
+  Every account must be verified with an active .ac.ke or university
+  institutional email. An OTP is sent to the address; unverified accounts
+  cannot access the discovery feed. No exceptions. Profile photos are
+  AI-screened for nudity at upload time.
+
+F2 — Profile
+  Required: display name, profile photo (1–6 images), university, faculty,
+  year of study.
+  Optional: bio (max 150 chars), pronouns, relationship intent
+  (friendship / casual / serious / open), interests (multi-select).
+  Location: city-level only — no precise GPS collection.
+
+F3 — Discovery & Matching
+  • Card-based swipe interface (right = like, left = pass, up = super like)
+  • Match occurs on mutual right-swipe — both users notified
+  • Default filter: same campus, within ±2 years of study
+  • Free users: 30 right-swipes/day; premium: unlimited
+
+F4 — Chat
+  • Text messaging between matched users only
+  • Photo sharing (screenshotting triggers notification to both parties)
+  • Message requests expire after 7 days if ignored
+  • Unmatch and report available at all times within the chat
+
+F5 — Safety & Moderation
+  • In-app report with category selection (harassment, fake profile,
+    explicit content, other)
+  • Reported users enter a review queue; 3 confirmed reports in 30 days
+    = automatic temporary suspension
+  • Block is immediate and mutual
+  • Human moderation team reviews severe reports within 24 hours
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. KEY USER FLOWS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+6.1 Onboarding Flow
+--------------------
+  1. Download app / visit web → Enter institutional email
+  2. OTP verification → Set password
+  3. Complete profile (photos, bio, interests, intent)
+  4. Set discovery preferences (campus, year range, intent)
+  5. Begin discovery feed → First swipe experience
+
+6.2 Match to Conversation Flow
+--------------------------------
+  User swipes right → mutual like detected → match animation displayed →
+  system sends icebreaker prompt to both users → either user sends first
+  message → conversation thread opens.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. NON-FUNCTIONAL REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Category        Requirement
+  --------------- --------------------------------------------------------------
+  Performance     Page load < 2s on 4G; image load < 1s with progressive JPEG
+  Scalability     Architecture must support 100,000 concurrent users by Month 12
+  Uptime          99.5% SLA; maintenance during off-peak hours (2–4 AM EAT)
+  Security        E2E encrypted messages; photos on signed URLs; HTTPS everywhere
+  Data Privacy    Compliant with Kenya's Data Protection Act 2019
+  Accessibility   WCAG 2.1 AA minimum; screen reader compatible
+  Localisation    English (default); Swahili language support in Phase 2
+  Compatibility   Web: Chrome, Firefox, Safari; Mobile: iOS 15+, Android 10+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. MONETISATION STRATEGY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+8.1 Freemium Tiers
+-------------------
+  Feature                      Free          CampusPlus       CampusPro
+                                             (KES 299/mo)     (KES 599/mo)
+  ---------------------------- ------------- ---------------- ----------------
+  Swipes per day               30            Unlimited        Unlimited
+  Super Likes                  5/week        Unlimited        Unlimited
+  Filters                      Basic         Advanced         Advanced
+  See who liked you            No            Yes              Yes
+  Profile Boost                No            1/month          3/month
+  Incognito Mode               No            No               Yes
+  Read Receipts                No            No               Yes
+
+Payment methods: M-PESA (primary), card (secondary).
+Billing cycles: Monthly and semester (4-month).
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. TECHNICAL ARCHITECTURE (RECOMMENDED)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Layer              Technology
+  ------------------ -----------------------------------------------------------
+  Frontend (Web)     React.js + Tailwind CSS
+  Mobile             React Native (iOS & Android — Phase 2)
+  Backend API        Python / Flask or Node.js / Express
+  Database           PostgreSQL (profiles, matches) + Redis (sessions, swipes)
+  File Storage       AWS S3 or Cloudflare R2 (photos, chat media)
+  Real-Time Chat     WebSockets (Socket.io) or Firebase Realtime DB
+  Email (OTP)        SendGrid or AWS SES
+  Payments           Daraja API (M-PESA) + Stripe (card)
+  Hosting            AWS / GCP (Kenyan region preferred)
+  CDN                Cloudflare
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. PHASED ROADMAP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Phase       Timeline       Deliverables
+  ----------- -------------- ------------------------------------------------
+  Phase 0     Weeks 1–4      Market research, user interviews (50+ students),
+                             competitive analysis, wireframes, design system
+
+  Phase 1     Weeks 5–12     Verification, profiles, swipe feed, mutual match,
+  (MVP)                      in-app chat, report/block, web launch at 1–2
+                             pilot universities
+
+  Phase 2     Months 4–6     Campus Events Board, icebreaker prompts, freemium
+                             paywall, M-PESA integration, push notifications
+
+  Phase 3     Months 7–9     iOS & Android apps, cross-campus mode, advanced
+                             matching algorithm, Swahili localisation
+
+  Phase 4     Months 10–12   AI conversation starters, analytics dashboard,
+                             partner university expansion, Series A prep
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. RISKS & MITIGATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Risk                               Severity   Mitigation
+  ---------------------------------- ---------- ---------------------------------
+  Low user density per campus        High       Launch at 1–2 campuses only;
+  (cold start)                                  partner with student associations
+
+  Safety incidents (harassment)      Critical   Mandatory verification, robust
+                                                reporting, 24hr moderation,
+                                                panic link to campus security
+
+  Institutional email resistance     Medium     Pre-negotiate with university ICT
+                                                departments; offer admin dashboard
+
+  Data breach / privacy violation    High       Encryption at rest and in transit,
+                                                minimal data collection, KNDPA
+                                                compliance, regular audits
+
+  User churn after initial curiosity Medium     Events board, match nudges, weekly
+                                                digest emails for re-engagement
+
+  Revenue below projection           Medium     Reassess pricing at Month 4 based
+                                                on actual conversion data
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12. ASSUMPTIONS & CONSTRAINTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+12.1 Assumptions
+-----------------
+  • Target universities have institutional email infrastructure (.ac.ke)
+  • Students have smartphones and reasonable mobile data access
+  • M-PESA penetration among students is sufficient for payment processing
+  • Sufficient student demand validated through pre-launch surveys
+
+12.2 Constraints
+-----------------
+  • Must comply with Kenya's Data Protection Act 2019 and university policies
+  • Verification relies solely on institutional email (no student ID DB access)
+  • MVP must be achievable within a 3-month window with a small team (3–5 eng.)
+  • Phase 1 growth must rely heavily on organic/viral mechanisms
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+13. APPENDIX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A. Competitive Landscape
+-------------------------
+  Platform           Verified?   Campus-Specific?   Key Gap vs CampusConnect
+  ------------------ ----------- ------------------ ----------------------------
+  Tinder             No          No                 No campus context, safety
+                                                    concerns, unverified users
+  Bumble             No          No                 Same as Tinder; better gender
+                                                    dynamics but no campus layer
+  Hinge              No          No                 Good profile depth but no
+                                                    verification or local events
+  Facebook Dating    Partial     No                 Weak matching, poor adoption
+                                                    among Kenyan students
+  CampusConnect      YES         YES                —
+
+
+================================================================================
+END OF DOCUMENT
+Next steps: Stakeholder review → Sign-off → Design sprint kickoff
+Confidential — Internal Use Only
+================================================================================
