@@ -11,8 +11,50 @@ import {
   User, 
   BookOpen, 
   Heart, 
-  Sparkles
+  Sparkles,
+  Music,
+  Trophy,
+  BookOpen as Book,
+  Gamepad2,
+  Camera,
+  Plane,
+  Utensils,
+  Palette,
+  Dumbbell,
+  Film,
+  PartyPopper,
+  Laptop,
+  Pencil,
+  Shirt,
+  TreePine,
+  HeartHandshake,
+  MessageCircle,
+  Lightbulb,
+  Tv
 } from 'lucide-react';
+
+// Interest to icon mapping
+const INTEREST_ICONS: Record<string, React.ElementType> = {
+  'Music': Music,
+  'Sports': Trophy,
+  'Reading': Book,
+  'Gaming': Gamepad2,
+  'Photography': Camera,
+  'Travel': Plane,
+  'Cooking': Utensils,
+  'Art': Palette,
+  'Fitness': Dumbbell,
+  'Movies': Film,
+  'Dancing': PartyPopper,
+  'Technology': Laptop,
+  'Writing': Pencil,
+  'Fashion': Shirt,
+  'Nature': TreePine,
+  'Volunteering': HeartHandshake,
+  'Debating': MessageCircle,
+  'Entrepreneurship': Lightbulb,
+  'Anime': Tv
+};
 
 interface University {
   id: string;
@@ -39,7 +81,8 @@ const FACULTIES = [
 const INTERESTS = [
   'Music', 'Sports', 'Reading', 'Gaming', 'Photography', 'Travel',
   'Cooking', 'Art', 'Fitness', 'Movies', 'Dancing', 'Technology',
-  'Writing', 'Fashion', 'Nature', 'Volunteering', 'Debating', 'Entrepreneurship'
+  'Writing', 'Fashion', 'Nature', 'Volunteering', 'Debating', 'Entrepreneurship',
+  'Anime'
 ];
 
 const RELATIONSHIP_INTENTS = [
@@ -157,15 +200,20 @@ export default function Onboarding() {
     setIsLoading(true);
     setError('');
     
-    console.log('Submitting signup for:', formData.email);
+    console.log('Updating profile for:', formData.email);
     
     try {
-      const response = await fetch(`${API_URL}/auth/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      // Get auth token for logged-in user
+      const session = localStorage.getItem('campusconnect_session');
+      const token = session ? JSON.parse(session).access_token : null;
+      
+      const response = await fetch(`${API_URL}/user/profile`, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
         body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
           displayName: formData.displayName,
           universityId: formData.universityId,
           faculty: formData.faculty,
@@ -173,24 +221,33 @@ export default function Onboarding() {
           gender: formData.gender,
           bio: formData.bio,
           interests: formData.interests,
-          intent: formData.intent,
-          otp: formData.otp
+          intent: formData.intent
         })
       });
       
       const result = await response.json();
-      console.log('Signup response:', result);
+      console.log('Profile update response:', result);
       
       if (result.success) {
-        console.log('Signup successful, redirecting to verify-email');
-        // Redirect to email verification page
-        navigate('/verify-email', { state: { email: formData.email } });
+        console.log('Profile updated, redirecting to dashboard');
+        // Save profile to localStorage for dev mode (since backend skips database)
+        localStorage.setItem('campusconnect_profile', JSON.stringify({
+          display_name: formData.displayName,
+          university_id: formData.universityId,
+          faculty: formData.faculty,
+          year_of_study: formData.yearOfStudy,
+          gender: formData.gender,
+          bio: formData.bio,
+          interests: formData.interests,
+          intent: formData.intent
+        }));
+        navigate('/dashboard');
       } else {
-        console.error('Signup failed:', result.error);
-        setError(result.error || 'Signup failed');
+        console.error('Profile update failed:', result.error);
+        setError(result.error || 'Failed to save profile');
       }
     } catch (err) {
-      console.error('Signup exception:', err);
+      console.error('Profile update exception:', err);
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);
@@ -463,19 +520,23 @@ export default function Onboarding() {
                 Select Your Interests ({formData.interests.length}/3 min)
               </label>
               <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto">
-                {INTERESTS.map((interest) => (
-                  <button
-                    key={interest}
-                    onClick={() => toggleInterest(interest)}
-                    className={`px-4 py-2 rounded-full text-sm transition-all ${
-                      formData.interests.includes(interest)
-                        ? 'tag tag-active'
-                        : 'tag'
-                    }`}
-                  >
-                    {interest}
-                  </button>
-                ))}
+                {INTERESTS.map((interest) => {
+                  const IconComponent = INTEREST_ICONS[interest];
+                  return (
+                    <button
+                      key={interest}
+                      onClick={() => toggleInterest(interest)}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-all ${
+                        formData.interests.includes(interest)
+                          ? 'tag tag-active'
+                          : 'tag'
+                      }`}
+                    >
+                      {IconComponent && <IconComponent className="w-4 h-4" />}
+                      <span>{interest}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
             

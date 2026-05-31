@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { API_URL } from '../services/supabase.js';
+import { saveSession } from '../services/auth.js';
 import CosmicBackground from '../components/CosmicBackground.js';
 import { Mail, Check, Sparkles, ArrowLeft, RefreshCw } from 'lucide-react';
 
@@ -31,6 +32,15 @@ export default function VerifyEmail() {
       const result = await response.json();
 
       if (result.success) {
+        // Save session for auto-login
+        if (result.session) {
+          saveSession({
+            user: result.user,
+            access_token: result.session.access_token,
+            refresh_token: result.session.refresh_token,
+            expires_at: Date.now() + (result.session.expires_in || 3600) * 1000
+          });
+        }
         setSuccess('Email verified! Let\'s complete your profile...');
         setTimeout(() => {
           navigate('/onboarding');
@@ -115,17 +125,17 @@ export default function VerifyEmail() {
             <input
               type="text"
               value={otp}
-              onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 10))}
               placeholder="123456"
               className="input-cosmic text-center text-2xl tracking-widest"
-              maxLength={6}
+              maxLength={10}
               required
             />
           </div>
 
           <button
             type="submit"
-            disabled={isLoading || otp.length !== 6}
+            disabled={isLoading || otp.length < 6}
             className="w-full btn-primary py-3 disabled:opacity-50"
           >
             {isLoading ? (
@@ -152,6 +162,29 @@ export default function VerifyEmail() {
           >
             <RefreshCw className={`w-4 h-4 ${isResending ? 'animate-spin' : ''}`} />
             {isResending ? 'Sending...' : 'Resend Code'}
+          </button>
+        </div>
+
+        {/* Dev Bypass */}
+        <div className="mt-6 pt-6 border-t border-white/10">
+          <button
+            type="button"
+            onClick={() => {
+              // Create fake dev session and skip to onboarding
+              saveSession({
+                user: {
+                  id: 'dev-user-' + Date.now(),
+                  email: email || 'dev@campusconnect.test',
+                },
+                access_token: 'dev-token',
+                refresh_token: 'dev-refresh',
+                expires_at: Date.now() + 86400000
+              });
+              navigate('/onboarding');
+            }}
+            className="w-full py-2 rounded-full border border-purple-400/30 text-purple-300 hover:bg-purple-500/10 transition text-sm"
+          >
+            🚀 Dev Mode: Skip to Onboarding
           </button>
         </div>
 

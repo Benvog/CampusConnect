@@ -35,19 +35,27 @@ export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState<'photos' | 'details' | 'settings'>('photos');
   
+  // Load dev profile from localStorage
+  const devProfile = (() => {
+    try {
+      const saved = localStorage.getItem('campusconnect_profile');
+      return saved ? JSON.parse(saved) : null;
+    } catch { return null; }
+  })();
+  
   // Mock photos
   const [photos] = useState<Photo[]>([
     { id: '1', url: '', isPrimary: true },
   ]);
   
-  // Form state
+  // Form state - use localStorage for dev mode, otherwise use user profile
   const [formData, setFormData] = useState({
-    displayName: user?.profile?.display_name || '',
-    bio: '',
-    faculty: user?.profile?.faculty || '',
-    yearOfStudy: user?.profile?.year_of_study?.toString() || '',
-    interests: [] as string[],
-    gender: 'other'
+    displayName: devProfile?.display_name || user?.profile?.display_name || '',
+    bio: devProfile?.bio || '',
+    faculty: devProfile?.faculty || user?.profile?.faculty || '',
+    yearOfStudy: (devProfile?.year_of_study?.toString() || user?.profile?.year_of_study?.toString()) || '',
+    interests: devProfile?.interests || [],
+    gender: devProfile?.gender || 'other'
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);

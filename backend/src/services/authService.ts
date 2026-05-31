@@ -40,28 +40,31 @@ export async function signupUser(data: SignupRequest) {
 
     const userId = authData.user.id;
 
-    // Create profile
-    const { error: profileError } = await supabaseAdmin
-      .from('profiles')
-      .insert({
-        id: userId,
-        display_name: data.displayName,
-        faculty: data.faculty,
-        year_of_study: data.yearOfStudy,
-        university_id: data.universityId,
-        is_verified_student: true, // Verified because .ac.ke email
-        is_email_verified: false,  // Will be true after OTP
-        photos: [],
-        interests: []
-      });
+    // Only create profile if onboarding data provided
+    // Otherwise profile will be created during /onboarding
+    if (data.displayName && data.universityId) {
+      const { error: profileError } = await supabaseAdmin
+        .from('profiles')
+        .insert({
+          id: userId,
+          display_name: data.displayName,
+          faculty: data.faculty,
+          year_of_study: data.yearOfStudy,
+          university_id: data.universityId,
+          is_verified_student: true,
+          is_email_verified: false,
+          photos: [],
+          interests: []
+        });
 
-    if (profileError) {
-      // Rollback: delete the auth user if profile creation fails
-      await supabaseAdmin.auth.admin.deleteUser(userId);
-      return {
-        success: false,
-        error: 'Failed to create profile: ' + profileError.message
-      };
+      if (profileError) {
+        // Rollback: delete the auth user if profile creation fails
+        await supabaseAdmin.auth.admin.deleteUser(userId);
+        return {
+          success: false,
+          error: 'Failed to create profile: ' + profileError.message
+        };
+      }
     }
 
     // Send email verification OTP
@@ -112,7 +115,12 @@ export async function verifyEmail(email: string, token: string) {
         .eq('id', data.user.id);
     }
 
-    return { success: true, message: 'Email verified successfully!' };
+    return { 
+      success: true, 
+      message: 'Email verified successfully!',
+      user: data.user,
+      session: data.session
+    };
   } catch (error: any) {
     return { success: false, error: error.message };
   }

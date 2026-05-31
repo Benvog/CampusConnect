@@ -28,6 +28,16 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
 
     const token = authHeader.split(' ')[1];
     
+    // DEV ONLY: Allow dev tokens to bypass verification
+    if (token.startsWith('dev-')) {
+      req.user = {
+        id: 'dev-user-id',
+        email: 'dev@campusconnect.test',
+        profile: { is_email_verified: true }
+      };
+      return next();
+    }
+    
     // Verify token and get user
     const user = await getUserFromToken(token);
     

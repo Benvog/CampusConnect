@@ -28,10 +28,11 @@ router.post('/signup', [
   //   return true;
   // }),
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-  body('displayName').notEmpty().withMessage('Display name required'),
-  body('faculty').notEmpty().withMessage('Faculty required'),
-  body('yearOfStudy').isInt({ min: 1, max: 7 }).withMessage('Year of study must be 1-7'),
-  body('universityId').notEmpty().withMessage('University required'),
+  // TEMP: Made optional for phase 1 signup - will be filled in /onboarding
+  // body('displayName').notEmpty().withMessage('Display name required'),
+  // body('faculty').notEmpty().withMessage('Faculty required'),
+  // body('yearOfStudy').isInt({ min: 1, max: 7 }).withMessage('Year of study must be 1-7'),
+  // body('universityId').notEmpty().withMessage('University required'),
   handleValidationErrors
 ], async (req: Request, res: Response) => {
   try {

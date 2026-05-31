@@ -30,6 +30,16 @@ router.post('/reset-swipes', requireAuth, async (req: Request, res: Response) =>
 router.put('/profile', requireAuth, async (req: Request, res: Response) => {
   try {
     const userId = req.user!.id;
+    
+    // DEV ONLY: Skip database for dev users
+    if (userId.startsWith('dev-')) {
+      return res.json({ 
+        success: true, 
+        message: 'Profile updated (dev mode)',
+        profile: req.body
+      });
+    }
+    
     const { displayName, bio, faculty, yearOfStudy, interests, gender } = req.body;
     
     const result = await updateUserProfile(userId, {
